@@ -8,16 +8,17 @@ install pip:
     - name: python-pip
 
 install docker-py:
-  cmd.run:
-    - name: pip install docker-py==1.2.3
+  pip.installed:
+    - name: docker-py ==1.2.3
     - require:
       - pkg: python-pip
     - reload_modules: true
 
-add docker managed package repo:
+add docker prerequisite for aufs support:
   pkg.installed:
     - name: {{ 'linux-image-extra-' ~ grains['kernelrelease'] }}
 
+add docker managed repo:
   pkgrepo.managed:
     - humanname: Docker managed package repository
     - name:  deb https://get.docker.com/ubuntu docker main
@@ -26,8 +27,9 @@ add docker managed package repo:
     - require:
       - pkg: {{ 'linux-image-extra-' ~ grains['kernelrelease'] }}
 
-
 install docker:
   pkg.installed:
     - name: lxc-docker
+    - require:
+      - pkgrepo: deb https://get.docker.com/ubuntu docker main
 
