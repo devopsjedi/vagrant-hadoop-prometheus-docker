@@ -22,12 +22,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :libvirt do |libvirt|
     libvirt.storage_pool_name = "images"
   end
-  config.vm.synced_folder "salt/", "/srv/"
+  config.vm.synced_folder "srv/", "/srv/"
   config.vm.provision :salt do |salt|
     salt.minion_config = "minion"
-  #  salt.run_highstate = true
+    salt.run_highstate = true
     salt.install_type = "stable"
-    salt.bootstrap_options = "-P"
+    salt.bootstrap_options = "-F -c /tmp/ -P"
   end
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
