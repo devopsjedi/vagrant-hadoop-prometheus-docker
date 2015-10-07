@@ -9,7 +9,7 @@ install pip:
 
 install docker-py:
   cmd.run:
-    - name: pip install docker-py==1.4.0
+    - name: pip install docker-py==1.2.3
     - require:
       - pkg: python-pip
     - reload_modules: true
