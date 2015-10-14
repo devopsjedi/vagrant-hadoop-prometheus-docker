@@ -17,9 +17,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	
 	
   if (provider_is_libvirt)	
-    config.vm.define :docker do |docker|
-      docker.vm.box = "ubuntu/trusty64"
-      docker.vm.provider :libvirt do |domain|
+    config.vm.define :default do |default|
+      default.vm.box = "ubuntu/trusty64"
+      default.vm.provider :libvirt do |domain|
         domain.memory = 4096
         domain.cpus = 2
         domain.nested = true
@@ -31,9 +31,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  config.vm.synced_folder "srv/", "/srv/"
+  config.vm.synced_folder "salt/srv_salt/", "/srv/salt/"
   config.vm.provision :salt do |salt|
-    salt.minion_config = "minion"
+    salt.minion_config = "salt/minion"
     salt.run_highstate = true
     salt.install_type = "stable"
     salt.bootstrap_options = "-F -c /tmp/ -P"
